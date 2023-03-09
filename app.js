@@ -130,40 +130,6 @@ app.get("/files/:filename", (req, res) => {
   );
 });
 
-app.get("/video/:filename", (req, res) => {
-  gfs.files.findOne(
-    { filename: req.params.filename },
-    (err, file) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      if (!file || !file.length === 0) {
-        return res
-          .status(404)
-          .json({ error: "no file exist" });
-      }
-
-      let range = req.headers.range;
-      if (!range) range = "bytes=0-";
-
-      //   check if video
-      if (file.contentType === "video/mp4") {
-        // Read Output
-        const readStream = gridfsBucket.openDownloadStream(
-          file._id,
-        );
-
-        readStream.pipe(res);
-      } else {
-        res.status(404).json({
-          err: "Not a Video",
-        });
-      }
-    },
-  );
-});
-
 app.get("/image/:filename", (req, res) => {
   gfs.files.findOne(
     { filename: req.params.filename },
@@ -177,6 +143,7 @@ app.get("/image/:filename", (req, res) => {
       //   check if video
       if (
         file.contentType === "image/jpeg" ||
+        file.contentType === "image/jpg" ||
         file.contentType === "image/png"
       ) {
         // Read Output
