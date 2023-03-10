@@ -1,6 +1,7 @@
 const generator = require("generate-password");
 
 const OTP = require("../modals/otp");
+const User = require("../modals/user");
 const { sendPasswordMail } = require("../utils/sendMails");
 
 module.exports.getOTP = async (req, res) => {
@@ -22,6 +23,13 @@ module.exports.createOTP = async (req, res) => {
         .status(400)
         .json({ err: "Invalid Details" });
     }
+
+    const user = await User.findOne({ email });
+    if (user) {
+      return res
+        .status(400)
+        .json({ err: "user already exists" });
+    }
     const token = generator.generate({
       length: 6,
       numbers: true,
@@ -37,7 +45,7 @@ module.exports.createOTP = async (req, res) => {
     await otp.save();
 
     res.status(200).json(otp);
-  } catch (e) {
+  } catch (err) {
     res.status(500).json({ err: err.message });
   }
 };

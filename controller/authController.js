@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const User = require("../modals/user");
-const confirmOTP = require("../utils/confirmOtp");
 const {
   generateTokens,
 } = require("../utils/generateToken");
@@ -38,16 +37,17 @@ module.exports.signUp = async (req, res) => {
       salt,
     );
 
-    confirmOTP(req.body.email);
-
-    await new User({
+    const newUser = new User({
       ...req.body,
       password: hashPasword,
-    }).save();
+    });
 
-    res
-      .status(200)
-      .json({ message: "Account created successfully" });
+    await newUser.save();
+
+    res.status(200).json({
+      user: newUser,
+      message: "Account created successfully",
+    });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
