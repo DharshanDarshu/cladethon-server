@@ -18,6 +18,7 @@ const refreshTokenRoutes = require("./routes/refreshToken");
 const cartRoutes = require("./routes/carts");
 const orderRoutes = require("./routes/orders");
 const otpRoutes = require("./routes/otp");
+const wishlistRoutes = require("./routes/wishlists");
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -88,6 +89,7 @@ app.use("/refresh-token", refreshTokenRoutes);
 app.use("/carts", cartRoutes);
 app.use("/orders", orderRoutes);
 app.use("/verifyemail", otpRoutes);
+app.use("/wishlist", wishlistRoutes);
 
 // Uploads file to DB
 app.post("/upload", upload.single("image"), (req, res) => {

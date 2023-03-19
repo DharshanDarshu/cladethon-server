@@ -41,7 +41,7 @@ const productSchema = mongoose.Schema({
   offer: {
     type: Boolean,
   },
-  offer_deatils: {
+  offer_details: {
     type: String,
     lowercase: true,
   },

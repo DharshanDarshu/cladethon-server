@@ -5,6 +5,9 @@ const userTokenSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  user: {
+    email: String,
+  },
   token: {
     type: String,
     required: true,

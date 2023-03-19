@@ -44,3 +44,20 @@ module.exports.updateOrder = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
+
+module.exports.updatedEmail = async (req, res) => {
+  const email = req.user.user.email;
+  const newemail = req.body.email;
+  try {
+    const order = await Order.findOne({ email });
+
+    order.email = newemail;
+
+    await order.save();
+    res
+      .status(200)
+      .json({ message: "successfully updated" });
+  } catch (err) {
+    res.status(500).jsn({ err: err.message });
+  }
+};

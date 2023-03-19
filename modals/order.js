@@ -9,6 +9,10 @@ const orderSchema = mongoose.Schema({
       price: String,
       productId: mongoose.Schema.Types.ObjectId,
       items: Number,
+      order_date: {
+        type: Date,
+        default: Date.now(),
+      },
     },
   ],
 });
