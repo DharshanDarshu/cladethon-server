@@ -25,6 +25,7 @@ module.exports.createOTP = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
+    console.log(user);
     if (user) {
       return res
         .status(400)
@@ -74,7 +75,7 @@ module.exports.createOTPForgotten = async (req, res) => {
       token,
     });
 
-    // sendPasswordMail(req.body.email, token);
+    sendPasswordMail(req.body.email, token);
 
     await otp.save();
 

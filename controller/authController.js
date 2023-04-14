@@ -39,6 +39,7 @@ module.exports.signUp = async (req, res) => {
     });
 
     if (user) {
+      console.log(user);
       return res
         .status(400)
         .json({ err: "User already exists" });

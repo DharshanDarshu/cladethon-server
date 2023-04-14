@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 router.get("/:id", getOTP);
-router.post("/", createOTP);
 router.post("/forgetten", createOTPForgotten);
+router.post("/", createOTP);
 
 module.exports = router;

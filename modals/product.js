@@ -45,6 +45,19 @@ const productSchema = mongoose.Schema({
     type: String,
     lowercase: true,
   },
+  ratings: [
+    {
+      user: {
+        firstname: String,
+        lastname: String,
+        email: String,
+      },
+      rating: Number,
+      message: {
+        type: String,
+      },
+    },
+  ],
 });
 
 const Product = mongoose.model("Product", productSchema);

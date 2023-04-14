@@ -61,3 +61,20 @@ module.exports.updatedEmail = async (req, res) => {
     res.status(500).jsn({ err: err.message });
   }
 };
+
+module.exports.getOneOrder = async (req, res) => {
+  const id = req.params.id;
+  const email = req.user.user.email;
+
+  try {
+    const orders = await Order.findOne({ email });
+
+    const order = orders.orders.find(
+      (ord) => String(ord._id) === id,
+    );
+
+    res.status(200).json(order);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};

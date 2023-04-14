@@ -17,12 +17,13 @@ module.exports.createWishList = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const wishlist = new WishList({ email });
+    const wishlist = new Wishlist({ email });
 
     await wishlist.save();
 
     res.status(201).json(wishlist);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ err: err.message });
   }
 };

@@ -100,7 +100,16 @@ module.exports.createProduct = async (req, res) => {
     offer,
     offer_details,
   } = req.body;
+  const email = req.user.user.email;
+  const admin = process.env.ADMIN;
   try {
+    console.log(email, admin);
+    if (email !== admin) {
+      res
+        .status(400)
+        .json({ err: "You can't create Products" });
+      return;
+    }
     if (
       !title ||
       !price ||
@@ -131,6 +140,32 @@ module.exports.createProduct = async (req, res) => {
     await product.save();
 
     return res.status(201).json(product);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+};
+
+module.exports.updateRatings = async (req, res) => {
+  const id = req.params.id;
+  const { email, firstname, lastname } = req.user.user;
+  const { rating, comment } = req.body;
+  const user = {
+    email,
+    firstname,
+    lastname,
+  };
+  try {
+    const product = await Product.findById(id);
+
+    const ratings = {
+      user,
+      rating,
+      message: comment,
+    };
+
+    product.ratings.push(ratings);
+    await product.save();
+    res.status(200).json(product);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
